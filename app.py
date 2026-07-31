@@ -1,68 +1,87 @@
+"""Streamlit UI for the DeepResearch agent.
+
+The graph is executed exactly once: node updates are consumed from the
+stream and the final report is taken from the ``finalizer`` update (the
+original version streamed one run, then silently re-ran the whole agent
+a second time just to read the result).
+"""
+
+import os
+
 import streamlit as st
-from agent import research_agent
+from dotenv import load_dotenv
+
+from deepresearch.graph import build_graph
+
+load_dotenv()
 
 st.set_page_config(page_title="DeepResearch AI Agent", page_icon="🕵️", layout="wide")
 
 st.title("🕵️ DeepResearch AI Agent")
-st.markdown("""
-This application uses **LangGraph** to autonomously research any topic. 
-It plans a search strategy, uses **DuckDuckGo** to browse the web, and synthesizes the findings into a comprehensive markdown report.
-""")
+st.markdown(
+    "An autonomous research agent built with **LangGraph**: it plans web searches, "
+    "gathers sources via **DuckDuckGo**, drafts a cited Markdown report and revises "
+    "it based on its own reviewer's feedback."
+)
 
-# Sidebar configuration
 with st.sidebar:
     st.header("⚙️ Configuration")
-    api_key = st.text_input("OpenAI API Key", type="password", placeholder="sk-...")
+    api_key = st.text_input(
+        "OpenAI-compatible API Key",
+        type="password",
+        placeholder="sk-...",
+        help="Alternatively set OPENAI_API_KEY in a .env file.",
+    )
     if api_key:
-        import os
         os.environ["OPENAI_API_KEY"] = api_key
     st.markdown("---")
-    st.markdown("Built for **AI Agent Internship Portfolios**.")
-    st.markdown("Powered by LangGraph & GPT-3.5/GPT-4.")
+    st.caption("Model and iteration limits are configured via environment variables — see `.env.example`.")
 
-query = st.text_input("What would you like to research today?", placeholder="e.g., The impact of quantum computing on cryptography in 2024")
+query = st.text_input(
+    "What would you like to research today?",
+    placeholder="e.g., The impact of quantum computing on cryptography",
+)
 
 if st.button("Start Research 🚀"):
-    if not os.environ.get("OPENAI_API_KEY") and not api_key:
-        st.error("⚠️ Please enter your OpenAI API Key in the sidebar or set it in the .env file.")
-    elif not query:
+    if not os.environ.get("OPENAI_API_KEY"):
+        st.error("⚠️ Please enter your API key in the sidebar or set it in a .env file.")
+    elif not query.strip():
         st.warning("⚠️ Please enter a research query.")
     else:
+        final_report = ""
         with st.status("Agent is working...", expanded=True) as status:
             try:
-                st.write("🧠 Planning search strategy...")
-                # Stream the events from langgraph
-                for event in research_agent.stream({"query": query, "iteration": 0}):
-                    if "planner" in event:
-                        st.write("✅ Plan created. Generated search queries:")
-                        for q in event["planner"].get("search_queries", []):
-                            st.write(f"- {q}")
-                    elif "searcher" in event:
-                        st.write("🔍 Executing web searches and reading articles...")
-                    elif "writer" in event:
-                        st.write("✍️ Synthesizing information and drafting report...")
-                    elif "reviewer" in event:
-                        st.write("🧐 Reviewing draft against original requirements...")
-                        feedback = event["reviewer"].get("feedback", "")
-                        with st.expander("Reviewer Feedback"):
-                            st.write(feedback)
-                        if "APPROVED" not in feedback.upper() and event["reviewer"].get("iteration", 0) < 2:
-                            st.write("🔄 Feedback received. Refining research...")
-                
-                status.update(label="Research Complete!", state="complete", expanded=False)
-                
-                # Fetch the final state
-                final_state = research_agent.invoke({"query": query, "iteration": 0})
-                
-                st.subheader("📄 Final Research Report")
-                st.markdown(final_state.get("final_report", "No report generated."))
-                
-                st.download_button(
-                    label="Download Report as Markdown",
-                    data=final_state.get("final_report", ""),
-                    file_name="research_report.md",
-                    mime="text/markdown"
-                )
-            except Exception as e:
+                graph = build_graph()
+                for event in graph.stream({"query": query}):
+                    for node, update in event.items():
+                        if node == "planner":
+                            st.write(f"🧠 Iteration {update.get('iteration', '?')} — search plan:")
+                            for q in update.get("plan", []):
+                                st.write(f"- {q}")
+                        elif node == "searcher":
+                            st.write(f"🔍 {len(update.get('sources', []))} unique sources collected")
+                        elif node == "writer":
+                            st.write("✍️ Draft written")
+                        elif node == "reviewer":
+                            if update.get("approved"):
+                                st.write("🧐 Reviewer: ✅ approved")
+                            else:
+                                st.write("🧐 Reviewer: ❌ revision requested")
+                                with st.expander("Reviewer feedback"):
+                                    st.write(update.get("feedback", ""))
+                        elif node == "finalizer":
+                            final_report = update.get("final_report", "")
+                status.update(label="Research complete!", state="complete", expanded=False)
+            except Exception as exc:
                 status.update(label="An error occurred", state="error", expanded=True)
-                st.error(f"Error details: {str(e)}")
+                st.exception(exc)
+
+        if final_report:
+            st.subheader("📄 Final Research Report")
+            st.markdown(final_report)
+            st.download_button(
+                label="Download report as Markdown",
+                data=final_report,
+                file_name="research_report.md",
+                mime="text/markdown",
+            )
