@@ -106,6 +106,9 @@ package grades reports on two layers:
 **LLM-as-judge** (optional, API-backed): a model grades `faithfulness` (are the
 claims grounded in the sources?) and `relevance` (does it answer the query?).
 
+> 📄 The design rationale — why each metric exists, its tradeoffs and known
+> limitations — is written up in [`docs/evals-design.md`](docs/evals-design.md).
+
 Run the suite over the built-in dataset:
 
 ```bash
@@ -279,6 +282,8 @@ python -m deepresearch "量子计算对密码学的影响" -o report.md
 | `keyword_coverage` | 该用例期望关键词的命中比例。 |
 
 **LLM 裁判**（可选、需 API）：由模型给 `faithfulness`（论断是否有信息源支撑）和 `relevance`（是否回答了问题）打分。
+
+> 📄 各指标为什么这么设计、取舍与已知局限，详见设计文档 [`docs/evals-design.md`](docs/evals-design.md)。
 
 在内置数据集上运行评估：
 
