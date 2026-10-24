@@ -1,0 +1,49 @@
+{
+  "name": "dossier",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Dossier — a production-grade deep research harness with citations you can audit.",
+  "license": "MIT",
+  "author": "Riddim004",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Riddim004/DeepResearch-Agent.git"
+  },
+  "homepage": "https://github.com/Riddim004/DeepResearch-Agent#readme",
+  "bugs": {
+    "url": "https://github.com/Riddim004/DeepResearch-Agent/issues"
+  },
+  "keywords": [
+    "deep-research",
+    "ai-agents",
+    "agent-harness",
+    "citations",
+    "typescript",
+    "nextjs"
+  ],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @dossier/web",
+    "build": "npm run build -w @dossier/web",
+    "start": "npm run start -w @dossier/web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test -w @dossier/harness",
+    "test:watch": "npm run test:watch -w @dossier/harness",
+    "lint": "npm run lint -w @dossier/web",
+    "cli": "tsx apps/cli/src/index.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "prettier": "3.9.10",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">=22.5"
+  }
+}

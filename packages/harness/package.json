@@ -1,0 +1,30 @@
+{
+  "name": "@dossier/harness",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Typed, event-sourced deep research harness: planner, search, reader, writer and citation auditor.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./browser": "./src/browser.ts"
+  },
+  "types": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@mozilla/readability": "0.6.0",
+    "cheerio": "1.2.0",
+    "jsdom": "30.1.3",
+    "unpdf": "1.9.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/jsdom": "30.0.0",
+    "@types/node": "24.19.2",
+    "typescript": "5.9.3",
+    "vitest": "5.0.5"
+  }
+}

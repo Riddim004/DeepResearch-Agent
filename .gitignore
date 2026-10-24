@@ -1,0 +1,31 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# runtime data
+.data/
+data/
+*.sqlite
+*.sqlite-*
+
+# env
+.env
+.env.*
+!.env.example
+
+# tests
+coverage/
+.vitest/
+
+# misc
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/
