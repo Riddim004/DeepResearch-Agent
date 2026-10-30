@@ -32,22 +32,23 @@ Everything the harness does emits a typed `HarnessEvent`. The web app stores tho
 Two surfaces, one core:
 
 - **The desk** (`/`) is the product view: compose a question, watch the run, read the cited brief.
-- **The harness console** (`/harness`) is the system view: runtime manifest, pipeline and adapter contracts, budgets, and a raw typed-event trace you can inspect and download.
+- **The harness console** (`/harness`) is the system view: runtime manifest, pipeline and adapter contracts, budgets, the deterministic benchmark, and a raw typed-event trace you can inspect and download.
 
 The harness itself lives in [`packages/harness`](packages/harness) and has no dependency on Next.js. Both surfaces are adapters over the same `runResearch()` call.
 
 ## Highlights
 
-|                          |                                                                                                                                     |
-| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
-| **Typed event protocol** | Every phase, search, read, report delta, and audit result is a discriminated union event — not unstructured logs.                   |
-| **Bounded autonomy**     | Per-run caps on searches, reads, rounds, time, context tokens, and output size. No runaway loops.                                   |
-| **Citation ledger**      | Claims map to numbered sources; invalid numbers are stripped, coverage is measured, and the source ledger is appended to exports.   |
-| **Real reading**         | Readability + jsdom for HTML, unpdf for PDFs, manual redirect validation, size/time limits, and SSRF protection.                    |
-| **Pluggable by design**  | Swap the model provider, search provider, or page fetcher without touching the pipeline.                                            |
-| **Durable runs**         | `node:sqlite` persists runs and event logs; interrupted runs are marked, not silently lost; cancellation and timeouts are explicit. |
-| **Works without a key**  | No model key? A deterministic extractive writer runs against real web sources so the harness, UI, CLI, and tests stay fully usable. |
-| **Readable by humans**   | An editorial research desk with live field notes, an evidence ledger, a citation audit, a source list, and print/export.            |
+|                          |                                                                                                                                                              |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Typed event protocol** | Every phase, search, read, report delta, and audit result is a discriminated union event — not unstructured logs.                                            |
+| **Bounded autonomy**     | Per-run caps on searches, reads, rounds, time, context tokens, and output size. No runaway loops.                                                            |
+| **Citation ledger**      | Claims map to numbered sources; invalid numbers are stripped, coverage is measured, and the source ledger is appended to exports.                            |
+| **Real reading**         | Readability + jsdom for HTML, unpdf for PDFs, manual redirect validation, size/time limits, and SSRF protection.                                             |
+| **Pluggable by design**  | Swap the model provider, search provider, or page fetcher without touching the pipeline.                                                                     |
+| **Durable runs**         | `node:sqlite` persists runs and event logs; interrupted runs are marked, not silently lost; cancellation and timeouts are explicit.                          |
+| **Evaluated**            | Seven offline fixture cases — including search/read outages and a forced revision — gate CI on citation coverage, audit score, and S/A/B/C source authority. |
+| **Works without a key**  | No model key? A deterministic extractive writer runs against real web sources so the harness, UI, CLI, and tests stay fully usable.                          |
+| **Readable by humans**   | An editorial research desk with live field notes, an evidence ledger, a citation audit, a source list, and print/export.                                     |
 
 <img src="docs/screenshots/run-light.webp" alt="A completed Dossier brief with citation audit and evidence ledger" width="100%" />
 
@@ -56,6 +57,10 @@ _One completed run: cited brief, citation audit, source ledger, and the trace of
 <img src="docs/screenshots/harness-light.webp" alt="The Dossier harness console with pipeline, adapters, and a typed event trace" width="100%" />
 
 _The harness console at `/harness`: the system view, with a run's typed events and raw JSON payloads._
+
+<img src="docs/screenshots/evaluation-section.webp" alt="Dossier evaluation section with a benchmark grade, citation coverage, and an S/A/B/C source authority mix" width="100%" />
+
+_The evaluation section: seven fixture cases, citation coverage, graceful-failure handling, and the S/A/B/C authority mix of every cited source. A failing case fails CI._
 
 ## Quick start
 
@@ -234,11 +239,18 @@ Deeper design notes, invariants, and failure modes are in [docs/architecture.md]
 ```bash
 npm run typecheck   # strict TS across all workspaces
 npm run lint        # ESLint (web)
-npm test            # 41 unit tests (harness)
+npm test            # 49 unit tests (harness)
+npm run eval        # 7-case deterministic benchmark, exits 1 on regression
 npm run build       # production Next.js build
 ```
 
-The test suite covers the SSE parser, citation transformation, safe-URL/SSRF checks, context budgeting, JSON extraction, search parsing/merging, and a full fixture pipeline run. CI runs typecheck, lint, tests, build, and a Docker build on `main`.
+The test suite covers the SSE parser, citation transformation, safe-URL/SSRF checks, context budgeting, JSON extraction, search parsing/merging, source tiering, the benchmark runner, and a full fixture pipeline run. CI runs typecheck, lint, tests, evaluation, build, and a Docker build on `main`.
+
+## Evaluation
+
+`npm run eval` executes the real pipeline against a fixed offline corpus and deterministic writer. It measures pass rate, citation coverage, audit score, cited-domain diversity, source authority (S/A/B/C), graceful failure handling, latency, and token usage. The JSON report lands in `evals/latest.json` and renders at `/harness`; a failing case exits non-zero.
+
+The seven cases cover a standard brief, a quick profile, a Chinese brief, thin evidence, a search outage, a read outage, and an audit-triggered revision. The authority grade is a prior, not a truth judgment: S is official or primary material, A is peer-reviewed or authoritative, B is established media, and C covers unrated or user-generated sources. The full rubric, weights, and limitations are in [docs/evaluation.md](docs/evaluation.md).
 
 ## Project layout
 
@@ -250,8 +262,11 @@ packages/
   harness/        Reusable research harness + tests
 docs/
   architecture.md Design and invariants
+  evaluation.md   Benchmark cases, metrics, and source tiers
   harness.md      Embedding and extension guide
   screenshots/    Product screenshots
+evals/
+  latest.json     Committed benchmark report rendered by /harness
 ```
 
 ## Security notes

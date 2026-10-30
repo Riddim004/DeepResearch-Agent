@@ -7,7 +7,16 @@ import type {
 } from "../types";
 import { normalizeUrl } from "../util/url";
 
-const CORPUS = [
+export interface FixtureDocument {
+  url: string;
+  title: string;
+  domain: string;
+  publishedAt: string;
+  snippet: string;
+  text: string;
+}
+
+export const FIXTURE_CORPUS: FixtureDocument[] = [
   {
     url: "https://arxiv.org/abs/2601.00001",
     title: "Agent harnesses: the missing layer between models and production",
@@ -128,9 +137,10 @@ export class FixtureSearchProvider implements SearchProvider {
 
   async search(query: string, options: SearchOptions): Promise<SearchResult[]> {
     if (this.delayMs > 0) await new Promise((resolve) => setTimeout(resolve, this.delayMs));
-    const offset = hashUrl(query) % CORPUS.length;
-    return CORPUS.slice(0, options.maxResults).map((item, index) => {
-      const document = CORPUS[(index + offset) % CORPUS.length] ?? CORPUS[0];
+    const offset = hashUrl(query) % FIXTURE_CORPUS.length;
+    return FIXTURE_CORPUS.slice(0, options.maxResults).map((item, index) => {
+      const document =
+        FIXTURE_CORPUS[(index + offset) % FIXTURE_CORPUS.length] ?? FIXTURE_CORPUS[0];
       if (!document) throw new Error("Fixture corpus is empty");
       return {
         title: index === 0 ? `${query}: ${document.title}` : document.title,
@@ -147,7 +157,8 @@ export class FixtureSearchProvider implements SearchProvider {
 export class FixturePageFetcher implements PageFetcher {
   async fetch(url: string): Promise<FetchedPage> {
     const document =
-      CORPUS.find((item) => normalizeUrl(item.url) === normalizeUrl(url)) ?? CORPUS[0];
+      FIXTURE_CORPUS.find((item) => normalizeUrl(item.url) === normalizeUrl(url)) ??
+      FIXTURE_CORPUS[0];
     if (!document) throw new Error("Fixture document not found");
     return {
       url,

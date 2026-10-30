@@ -34,6 +34,7 @@
     "test:watch": "npm run test:watch -w @dossier/harness",
     "lint": "npm run lint -w @dossier/web",
     "cli": "tsx apps/cli/src/index.ts",
+    "eval": "tsx apps/cli/src/eval.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },

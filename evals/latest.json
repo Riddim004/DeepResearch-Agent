@@ -1,0 +1,600 @@
+{
+  "version": 1,
+  "mode": "offline-fixture",
+  "model": "dossier-demo-writer",
+  "generatedAt": "2026-10-30T18:10:30.929Z",
+  "durationMs": 43,
+  "cases": [
+    {
+      "id": "standard-en",
+      "name": "Standard brief, mixed-authority corpus",
+      "note": "The baseline path: five phases, one full corpus, cited and audited output.",
+      "depth": "standard",
+      "outcome": "success",
+      "passed": true,
+      "checks": [
+        {
+          "name": "outcome is success",
+          "passed": true
+        },
+        {
+          "name": "citations resolve to numbered sources",
+          "passed": true
+        },
+        {
+          "name": "at least 5 citations",
+          "passed": true,
+          "detail": "8"
+        },
+        {
+          "name": "citation coverage ≥ 55%",
+          "passed": true,
+          "detail": "100%"
+        },
+        {
+          "name": "at least 4 cited domains",
+          "passed": true,
+          "detail": "8"
+        },
+        {
+          "name": "authority ≥ 0.60",
+          "passed": true,
+          "detail": "0.76"
+        },
+        {
+          "name": "at least 300 words",
+          "passed": true,
+          "detail": "426"
+        },
+        {
+          "name": "audit verdict is pass",
+          "passed": true,
+          "detail": "pass"
+        },
+        {
+          "name": "counterevidence section is present",
+          "passed": true
+        }
+      ],
+      "metrics": {
+        "citations": 8,
+        "coverage": 1,
+        "auditScore": 97,
+        "authority": 0.763,
+        "domains": 8,
+        "words": 426,
+        "sourceCount": 8,
+        "durationMs": 14,
+        "tokens": 8068
+      },
+      "errorCode": null,
+      "sources": [
+        {
+          "number": 1,
+          "domain": "bbc.com",
+          "tier": "A"
+        },
+        {
+          "number": 2,
+          "domain": "arxiv.org",
+          "tier": "A"
+        },
+        {
+          "number": 3,
+          "domain": "ft.com",
+          "tier": "A"
+        },
+        {
+          "number": 4,
+          "domain": "oecd.org",
+          "tier": "S"
+        },
+        {
+          "number": 5,
+          "domain": "hai.stanford.edu",
+          "tier": "A"
+        },
+        {
+          "number": 6,
+          "domain": "technologyreview.com",
+          "tier": "B"
+        },
+        {
+          "number": 7,
+          "domain": "nature.com",
+          "tier": "A"
+        },
+        {
+          "number": 8,
+          "domain": "github.com",
+          "tier": "B"
+        }
+      ],
+      "events": {
+        "total": 57,
+        "searches": 7,
+        "searchFailures": 0,
+        "readFailures": 0,
+        "revisions": 0
+      }
+    },
+    {
+      "id": "quick-en",
+      "name": "Quick profile stays inside its budget",
+      "note": "A smaller profile must still produce a cited brief without losing auditability.",
+      "depth": "quick",
+      "outcome": "success",
+      "passed": true,
+      "checks": [
+        {
+          "name": "outcome is success",
+          "passed": true
+        },
+        {
+          "name": "citations resolve to numbered sources",
+          "passed": true
+        },
+        {
+          "name": "at least 2 citations",
+          "passed": true,
+          "detail": "6"
+        },
+        {
+          "name": "citation coverage ≥ 45%",
+          "passed": true,
+          "detail": "100%"
+        },
+        {
+          "name": "at least 3 cited domains",
+          "passed": true,
+          "detail": "6"
+        },
+        {
+          "name": "at least 200 words",
+          "passed": true,
+          "detail": "371"
+        },
+        {
+          "name": "audit verdict is pass",
+          "passed": true,
+          "detail": "pass"
+        },
+        {
+          "name": "counterevidence section is present",
+          "passed": true
+        }
+      ],
+      "metrics": {
+        "citations": 6,
+        "coverage": 1,
+        "auditScore": 100,
+        "authority": 0.792,
+        "domains": 6,
+        "words": 371,
+        "sourceCount": 6,
+        "durationMs": 4,
+        "tokens": 3161
+      },
+      "errorCode": null,
+      "sources": [
+        {
+          "number": 1,
+          "domain": "bbc.com",
+          "tier": "A"
+        },
+        {
+          "number": 2,
+          "domain": "arxiv.org",
+          "tier": "A"
+        },
+        {
+          "number": 3,
+          "domain": "oecd.org",
+          "tier": "S"
+        },
+        {
+          "number": 4,
+          "domain": "hai.stanford.edu",
+          "tier": "A"
+        },
+        {
+          "number": 5,
+          "domain": "technologyreview.com",
+          "tier": "B"
+        },
+        {
+          "number": 6,
+          "domain": "nature.com",
+          "tier": "A"
+        }
+      ],
+      "events": {
+        "total": 44,
+        "searches": 3,
+        "searchFailures": 0,
+        "readFailures": 0,
+        "revisions": 0
+      }
+    },
+    {
+      "id": "chinese",
+      "name": "Chinese research brief",
+      "note": "The same pipeline with a Chinese query, Chinese evidence and a Chinese report.",
+      "depth": "standard",
+      "outcome": "success",
+      "passed": true,
+      "checks": [
+        {
+          "name": "outcome is success",
+          "passed": true
+        },
+        {
+          "name": "citations resolve to numbered sources",
+          "passed": true
+        },
+        {
+          "name": "at least 3 citations",
+          "passed": true,
+          "detail": "4"
+        },
+        {
+          "name": "citation coverage ≥ 45%",
+          "passed": true,
+          "detail": "81%"
+        },
+        {
+          "name": "at least 3 cited domains",
+          "passed": true,
+          "detail": "4"
+        },
+        {
+          "name": "authority ≥ 0.55",
+          "passed": true,
+          "detail": "0.65"
+        },
+        {
+          "name": "at least 300 words",
+          "passed": true,
+          "detail": "887"
+        },
+        {
+          "name": "audit verdict is pass",
+          "passed": true,
+          "detail": "pass"
+        },
+        {
+          "name": "report is written in Chinese",
+          "passed": true,
+          "detail": "798 CJK characters"
+        },
+        {
+          "name": "counterevidence section is present",
+          "passed": true
+        }
+      ],
+      "metrics": {
+        "citations": 4,
+        "coverage": 0.81,
+        "auditScore": 89,
+        "authority": 0.65,
+        "domains": 4,
+        "words": 887,
+        "sourceCount": 4,
+        "durationMs": 2,
+        "tokens": 8585
+      },
+      "errorCode": null,
+      "sources": [
+        {
+          "number": 1,
+          "domain": "gov.cn",
+          "tier": "S"
+        },
+        {
+          "number": 2,
+          "domain": "caixin.com",
+          "tier": "A"
+        },
+        {
+          "number": 3,
+          "domain": "36kr.com",
+          "tier": "B"
+        },
+        {
+          "number": 4,
+          "domain": "zhuanlan.zhihu.com",
+          "tier": "C"
+        }
+      ],
+      "events": {
+        "total": 45,
+        "searches": 7,
+        "searchFailures": 0,
+        "readFailures": 0,
+        "revisions": 0
+      }
+    },
+    {
+      "id": "sparse-evidence",
+      "name": "Thin evidence degrades honestly",
+      "note": "Only two fixtures exist. The run should finish, cite both, and let the audit flag the gap.",
+      "depth": "standard",
+      "outcome": "success",
+      "passed": true,
+      "checks": [
+        {
+          "name": "outcome is success",
+          "passed": true
+        },
+        {
+          "name": "citations resolve to numbered sources",
+          "passed": true
+        },
+        {
+          "name": "at least 2 citations",
+          "passed": true,
+          "detail": "2"
+        },
+        {
+          "name": "citation coverage ≥ 45%",
+          "passed": true,
+          "detail": "100%"
+        },
+        {
+          "name": "evidence base has 2 sources",
+          "passed": true,
+          "detail": "2"
+        },
+        {
+          "name": "audit verdict is revise",
+          "passed": true,
+          "detail": "revise"
+        },
+        {
+          "name": "counterevidence section is present",
+          "passed": true
+        }
+      ],
+      "metrics": {
+        "citations": 2,
+        "coverage": 1,
+        "auditScore": 94,
+        "authority": 0.675,
+        "domains": 2,
+        "words": 442,
+        "sourceCount": 2,
+        "durationMs": 9,
+        "tokens": 6890
+      },
+      "errorCode": null,
+      "sources": [
+        {
+          "number": 1,
+          "domain": "technologyreview.com",
+          "tier": "B"
+        },
+        {
+          "number": 2,
+          "domain": "arxiv.org",
+          "tier": "A"
+        }
+      ],
+      "events": {
+        "total": 44,
+        "searches": 7,
+        "searchFailures": 0,
+        "readFailures": 0,
+        "revisions": 1
+      }
+    },
+    {
+      "id": "search-outage",
+      "name": "Search outage fails gracefully",
+      "note": "Every search throws. The run must surface NO_SOURCES with recorded search failures.",
+      "depth": "quick",
+      "outcome": "failure",
+      "passed": true,
+      "checks": [
+        {
+          "name": "outcome is failure",
+          "passed": true,
+          "detail": "Every search failed. Fixture search is offline."
+        },
+        {
+          "name": "failure is a typed HarnessError",
+          "passed": true,
+          "detail": "NO_SOURCES"
+        },
+        {
+          "name": "error code is NO_SOURCES",
+          "passed": true,
+          "detail": "NO_SOURCES"
+        },
+        {
+          "name": "emits search.failed",
+          "passed": true
+        },
+        {
+          "name": "phases close cleanly",
+          "passed": true
+        }
+      ],
+      "metrics": null,
+      "errorCode": "NO_SOURCES",
+      "sources": [],
+      "events": {
+        "total": 15,
+        "searches": 3,
+        "searchFailures": 3,
+        "readFailures": 0,
+        "revisions": 0
+      }
+    },
+    {
+      "id": "read-outage",
+      "name": "Read outage fails gracefully",
+      "note": "Search succeeds but every page read fails. The run must not pretend it has evidence.",
+      "depth": "quick",
+      "outcome": "failure",
+      "passed": true,
+      "checks": [
+        {
+          "name": "outcome is failure",
+          "passed": true,
+          "detail": "No readable sources were found. Try a more specific query or a different search provider."
+        },
+        {
+          "name": "failure is a typed HarnessError",
+          "passed": true,
+          "detail": "NO_SOURCES"
+        },
+        {
+          "name": "error code is NO_SOURCES",
+          "passed": true,
+          "detail": "NO_SOURCES"
+        },
+        {
+          "name": "emits source.failed",
+          "passed": true
+        },
+        {
+          "name": "phases close cleanly",
+          "passed": true
+        }
+      ],
+      "metrics": null,
+      "errorCode": "NO_SOURCES",
+      "sources": [],
+      "events": {
+        "total": 34,
+        "searches": 3,
+        "searchFailures": 0,
+        "readFailures": 6,
+        "revisions": 0
+      }
+    },
+    {
+      "id": "revision-recovery",
+      "name": "Audit catches a weak draft",
+      "note": "The first draft is uncited. The audit must trigger exactly one revision and the final draft must pass.",
+      "depth": "standard",
+      "outcome": "success",
+      "passed": true,
+      "checks": [
+        {
+          "name": "outcome is success",
+          "passed": true
+        },
+        {
+          "name": "citations resolve to numbered sources",
+          "passed": true
+        },
+        {
+          "name": "at least 3 citations",
+          "passed": true,
+          "detail": "8"
+        },
+        {
+          "name": "citation coverage ≥ 45%",
+          "passed": true,
+          "detail": "100%"
+        },
+        {
+          "name": "audit verdict is pass",
+          "passed": true,
+          "detail": "pass"
+        },
+        {
+          "name": "counterevidence section is present",
+          "passed": true
+        },
+        {
+          "name": "exactly one revision was triggered",
+          "passed": true,
+          "detail": "revision 1"
+        }
+      ],
+      "metrics": {
+        "citations": 8,
+        "coverage": 1,
+        "auditScore": 100,
+        "authority": 0.763,
+        "domains": 8,
+        "words": 426,
+        "sourceCount": 8,
+        "durationMs": 10,
+        "tokens": 9969
+      },
+      "errorCode": null,
+      "sources": [
+        {
+          "number": 1,
+          "domain": "bbc.com",
+          "tier": "A"
+        },
+        {
+          "number": 2,
+          "domain": "arxiv.org",
+          "tier": "A"
+        },
+        {
+          "number": 3,
+          "domain": "ft.com",
+          "tier": "A"
+        },
+        {
+          "number": 4,
+          "domain": "oecd.org",
+          "tier": "S"
+        },
+        {
+          "number": 5,
+          "domain": "hai.stanford.edu",
+          "tier": "A"
+        },
+        {
+          "number": 6,
+          "domain": "technologyreview.com",
+          "tier": "B"
+        },
+        {
+          "number": 7,
+          "domain": "nature.com",
+          "tier": "A"
+        },
+        {
+          "number": 8,
+          "domain": "github.com",
+          "tier": "B"
+        }
+      ],
+      "events": {
+        "total": 62,
+        "searches": 7,
+        "searchFailures": 0,
+        "readFailures": 0,
+        "revisions": 1
+      }
+    }
+  ],
+  "summary": {
+    "cases": 7,
+    "passed": 7,
+    "passRate": 1,
+    "grade": "A",
+    "composite": 0.957,
+    "citationCoverage": 0.962,
+    "auditScore": 96,
+    "authorityScore": 0.729,
+    "domainDiversity": 5.6,
+    "gracefulFailureRate": 1,
+    "avgLatencyMs": 8,
+    "totalTokens": 36673,
+    "tierMix": {
+      "S": 4,
+      "A": 16,
+      "B": 7,
+      "C": 1
+    }
+  }
+}

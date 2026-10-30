@@ -44,6 +44,15 @@ export { ExaProvider } from "./search/exa";
 export { MultiSearchProvider } from "./search/multi";
 export { SearchProviderError } from "./search/errors";
 
+export {
+  domainTier,
+  sourceTierWeight,
+  SOURCE_TIER_LABELS,
+  SOURCE_TIER_WEIGHTS,
+  type SourceTier,
+} from "./source-tier";
+export * from "./evaluation";
+
 export { HarnessError, errorMessage, isAbortError, isTimeoutError } from "./util/errors";
 export { estimateTokens, wordCount } from "./util/text";
 export { consoleLogger, silentLogger } from "./util/logger";

@@ -36,10 +36,13 @@ packages/harness
 ├── context.ts            passage scoring, dedupe, token budgeting
 ├── citations.ts          linkification, sanitization, coverage, ledger
 ├── audit.ts              deterministic checks + LLM audit merge
+├── source-tier.ts        deterministic S/A/B/C source provenance
+├── evaluation/           fixture corpus, cases, runner, metrics
 └── types.ts              the event and adapter contracts
 
 apps/cli
-└── src/index.ts          headless runner with progress on stderr
+├── src/index.ts          headless runner with progress on stderr
+└── src/eval.ts           benchmark entry, writes evals/latest.json
 ```
 
 ## Run lifecycle

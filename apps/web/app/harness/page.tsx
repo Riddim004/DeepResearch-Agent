@@ -12,8 +12,10 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+import { EvaluationPanel } from "@/components/harness/evaluation-panel";
 import { InvocationTabs } from "@/components/harness/invocation-tabs";
 import { TraceExplorer } from "@/components/harness/trace-explorer";
+import { loadEvaluationReport } from "@/lib/evaluation";
 import { getPublicConfig } from "@/lib/server-config";
 import { getStore } from "@/lib/store";
 import { formatDuration } from "@/lib/utils";
@@ -23,7 +25,7 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Harness",
   description:
-    "The system view of Dossier: a typed five-phase research pipeline with explicit adapters, bounded autonomy, and a replayable event log.",
+    "The system view of Dossier: a typed five-phase research pipeline with explicit adapters, a reproducible benchmark, and a replayable event log.",
 };
 
 const PHASES = [
@@ -85,6 +87,7 @@ export default async function HarnessPage({
   const { run } = await searchParams;
   const config = getPublicConfig();
   const store = getStore();
+  const evaluation = await loadEvaluationReport();
   const recent = store.listRuns(8);
   let runs = recent;
 
@@ -331,6 +334,35 @@ export default async function HarnessPage({
           </div>
           <p className="mt-3 font-mono text-[0.5rem] uppercase tracking-[0.08em] text-faint">
             source · GET /api/runs/:id/trace · ordered by sequence · stored in sqlite
+          </p>
+        </section>
+
+        <section className="border-t border-line py-14 lg:py-20" aria-labelledby="evaluation">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <span className="label">Evaluation</span>
+              <h2
+                id="evaluation"
+                className="display mt-3 text-[clamp(2rem,3.6vw,3.25rem)] text-ink"
+              >
+                Measured,
+                <br />
+                not asserted.
+              </h2>
+            </div>
+            <p className="max-w-md text-[0.8125rem] leading-relaxed text-muted">
+              A fixed offline corpus, seven cases, and a deterministic writer. Every case must pass
+              its checks before CI goes green. Cited sources are graded S/A/B/C by provenance, so a
+              high score cannot come only from convenient sources.
+            </p>
+          </div>
+
+          <EvaluationPanel report={evaluation} />
+
+          <p className="mt-5 max-w-2xl text-[0.6875rem] leading-relaxed text-muted">
+            The suite covers a standard brief, a quick profile, a Chinese brief, thin evidence,
+            search outage, read outage, and an audit-triggered revision. It is a regression
+            benchmark for the harness, not a claim about any model&apos;s general research quality.
           </p>
         </section>
 

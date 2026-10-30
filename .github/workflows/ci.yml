@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   check:
-    name: Typecheck, lint, test, build
+    name: Typecheck, lint, test, evaluate, build
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -29,6 +29,9 @@ jobs:
       - run: npm run lint
 
       - run: npm test
+
+      - name: Evaluation benchmark
+        run: npm run eval
 
       - run: npm run build
         env:

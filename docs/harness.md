@@ -183,6 +183,19 @@ const result = await runResearch(
 
 This is the pattern used by the pipeline tests: no network, no API key, real pipeline code.
 
+## Evaluation
+
+The benchmark is part of the package, not a script around it:
+
+```ts
+import { runEvaluation } from "@dossier/harness";
+
+const report = await runEvaluation();
+// report.summary: passRate, citationCoverage, auditScore, authorityScore, grade
+```
+
+`npm run eval` calls the same function and writes `evals/latest.json`. Cases live in [`src/evaluation/cases.ts`](../packages/harness/src/evaluation/cases.ts); fixtures are an offline English and Chinese corpus. Fault injection covers search outages, read outages, thin evidence, and an uncited first draft that must trigger exactly one revision. Source authority is classified by [`domainTier()`](../packages/harness/src/source-tier.ts) into S/A/B/C and weighted in the composite score. See [evaluation.md](evaluation.md) for the rubric and limitations.
+
 ## Extension points
 
 - **New search source:** implement `SearchProvider`, add it to `createRuntimeFromEnv` or a `MergedSearchProvider`.
